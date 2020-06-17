@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider_todo/TodoModel.dart';
+import 'package:employeeprovider/EmployeeModel.dart';
 
-import 'TodoModel.dart';
+import 'EmployeeModel.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,21 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.blue,
-        ),
+        title: 'Employee App',
         home: ChangeNotifierProvider(
-          builder: (context) => TodoModel(),
+          builder: (context) => EmployeeModel(),
           child: MyHomePage(),
         ));
   }
@@ -35,75 +23,44 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue[900],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.orange,
         elevation: 0,
         title: Text(
-          "Todo Application",
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.menu,
-            color: Colors.white70,
-          ),
+          "Employee App",
+          style: TextStyle(color: Colors.black),
         ),
       ),
       body: Column(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "02 : 36 PM",
-                style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 45,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "current time",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              )
-            ],
-          ), //to show the clock
-
           Expanded(
-            child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(50),
-                        topLeft: Radius.circular(60)),
-                    color: Colors.white),
-                child: Consumer<TodoModel>(
-                  builder: (context, todo, child) {
+            child: Card(
+                child: Consumer<EmployeeModel>(
+                  builder: (context, employee, child) {
                     return ListView.builder(
-                        itemCount: todo.employeeList.length,
+                        itemCount: employee.employeeList.length,
                         itemBuilder: (context, index) {
-                          return Container(
+                          return Card(
+                            elevation: 7.0,
                             child: ListTile(
-                                contentPadding: EdgeInsets.only(
-                                    left: 32, right: 32, top: 8, bottom: 8),
-                                title: Text(
-                                  "${todo.employeeList[index].id}. ${todo.employeeList[index].name}",
+                              leading: Text("${employee.employeeList[index].id}.",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  fontSize: 20.0
+                                ),
+                              ),
+                              title: Text("${employee.employeeList[index].name}.",
                                   style: TextStyle(
-                                      color: Colors.black87,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: Text(
-                                  todo.employeeList[index].salary.toString(),
+                                  employee.employeeList[index].salary.toString(),
                                   style: TextStyle(
-                                      color: Colors.black45,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 trailing: Container(
@@ -113,26 +70,26 @@ class MyHomePage extends StatelessWidget {
                                       IconButton(
                                         icon: Icon(Icons.thumb_up),
                                         onPressed: () {
-                                          Provider.of<TodoModel>(context)
+                                          Provider.of<EmployeeModel>(context)
                                               .thumbsUp(
-                                                  todo.employeeList[index].id);
+                                                  employee.employeeList[index].id);
                                         },
-                                        color: Colors.greenAccent,
+                                        color: Colors.green,
                                       ),
                                       IconButton(
                                         icon: Icon(Icons.thumb_down),
                                         onPressed: () {
-                                          Provider.of<TodoModel>(context)
+                                          Provider.of<EmployeeModel>(context)
                                               .thumbsDown(
-                                                  todo.employeeList[index].id);
+                                                employee.employeeList[index].id);
                                         },
-                                        color: Colors.redAccent,
+                                        color: Colors.red,
                                       )
                                     ],
                                   ),
                                 )),
-                            margin:
-                                EdgeInsets.only(bottom: 8, left: 16, right: 16),
+//                            margin:
+//                                EdgeInsets.only(bottom: 8, left: 16, right: 16),
                           );
                         });
                   },
